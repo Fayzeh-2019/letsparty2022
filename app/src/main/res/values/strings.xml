@@ -1,0 +1,63 @@
+<resources>
+    <string name="app_name">LetsParty</string>
+    <string name="title_activity_navigation_page">NavigationPage</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">My Orders</string>
+    <string name="title_notifications">chat</string>
+    <string name="title_chatroom">chat room</string>
+    <string name="login_account">login to your account</string>
+    <string name="email">Email</string>
+    <string name="passwrd">Password</string>
+    <string name="forgot">forgot your password?</string>
+    <string name="login">login</string>
+    <string name="orlogin">or login</string>
+    <string name="have_dont_account">Already have account? Register</string>
+    <string name="writehere">Write Here .....</string>
+    <string name="register_title">Create new account</string>
+    <string name="username">User Name</string>
+    <string name="city">City</string>
+    <string name="register">Create</string>
+    <string name="language">Language </string>
+    <string name="title_activity_designer_navigation">designerNavigation</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="designerName">Designer Name</string>
+    <string name="suggestDesign">Suggest Design</string>
+    <string name="suggestOffer">Suggest Offer</string>
+
+    <string name="designTitle">design title</string>
+    <string name="designDesc">design description</string>
+    <string name="offerTitle">offer title</string>
+    <string name="offerDesc">offer description</string>
+    <string name="uploadImage">Upload image</string>
+    <string name="send">Send</string>
+
+    <string name="book">Book an appointment</string>
+    <string name="contactdesigner">Contact the designer</string>
+    <string name="bookdate">Appointment Date</string>
+    <string name="numofinv">Number of invitees</string>
+    <string name="contopay">Continue to payment</string>
+
+    <string name="payCardForm">Payment card form</string>
+    <string name="cardnum">Card number</string>
+    <string name="exdate">Expiry Date</string>
+    <string name="cvv">CVV</string>
+    <string name="ownerName">Owner Name</string>
+    <string name="confirm">Confirm</string>
+
+    <string name="designs">Designs</string>
+    <string name="offers">Offers</string>
+    <string name="applicants">Applicants</string>
+    <string name="profile">Profile</string>
+
+    <string name="adminprifile">Personal Information</string>
+    <string name="adminName">Admin Name</string>
+    <string name="adminEmail">Email</string>
+    <string name="adminPassword">Password</string>
+    <string name="adminCity">City</string>
+    <string name="edit">Edit</string>
+    <string name="admingreeting">Welcome, AdminName</string>
+
+
+
+</resources>

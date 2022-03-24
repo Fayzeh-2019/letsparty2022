@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">لنحتفل</string>
+    <string name="title_home">الصفحة الرئيسية</string>
+    <string name="title_dashboard">طلباتي</string>
+    <string name="title_notifications">محادثاتي</string>
+    <string name="title_activity_navigation_page">صفحة التنقل</string>
+    <string name="login_account">سجل الدخول اللى حسابك</string>
+    <string name="email">البريد الالكتروني</string>
+    <string name="title_chatroom">غرفة المحادثة</string>
+    <string name="passwrd">كلمة المرور</string>
+    <string name="forgot">هل نسيت كلمة المرور</string>
+    <string name="login"> سجل الدخول</string>
+    <string name="orlogin">او سجل الدخو</string>
+    <string name="have_dont_account">ليس لديك حساب؟ انشئ حساب</string>
+    <string name="register_title">انشئ حساب جديد</string>
+    <string name="username">اسم المستخدم</string>
+    <string name="city">المدينة</string>
+    <string name="register">انشاء</string>
+    <string name="language">اللغة </string>
+    <string name="writehere">اكتب هنا .....</string>
+    <string name="title_activity_designer_navigation">تنقل المصمم</string>
+    <string name="hello_blank_fragment">فراغ</string>
+    <string name="designerName">اسم المصمم</string>
+    <string name="suggestDesign">اقترح تصميم</string>
+    <string name="suggestOffer">اقترح عرض</string>
+    <string name="designTitle"> عنوان للتصميم</string>
+    <string name="designDesc"> وصف للتصميم</string>
+    <string name="offerTitle"> عنوان العرض</string>
+    <string name="offerDesc">وصف العرض</string>
+    <string name="uploadImage">تحميل صورة</string>
+    <string name="send">ارسال</string>
+    <string name="book">احجز موعد</string>
+    <string name="contactdesigner">تواصل مع المصمم</string>
+    <string name="bookdate">تاريخ الموعد</string>
+    <string name="numofinv">عدد المدعوين</string>
+    <string name="contopay">تابع للدفع</string>
+
+    <string name="payCardForm">نموذج بطاقة الدفع</string>
+    <string name="cardnum">رقم البطاقة</string>
+    <string name="exdate">تاريخ الانتهاء</string>
+    <string name="cvv">CVV</string>
+    <string name="ownerName">اسم مالك البطاقة</string>
+    <string name="confirm">تاكيد</string>
+
+    <string name="designs">التصميمات</string>
+    <string name="offers">العروض</string>
+    <string name="applicants">الطلبات</string>
+    <string name="profile">حسابي</string>
+
+    <string name="adminprifile">المعلومات الشخصية</string>
+    <string name="adminName">اسم الادمن</string>
+    <string name="adminEmail">البريد الالكتروني</string>
+    <string name="adminPassword">كلمة المرور</string>
+    <string name="adminCity">المدينة</string>
+    <string name="edit">تعديل</string>
+    <string name="admingreeting">مرحبا, ادمن</string>
+
+
+
+
+</resources>
