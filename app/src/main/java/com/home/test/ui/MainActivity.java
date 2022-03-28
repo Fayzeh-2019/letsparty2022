@@ -26,9 +26,16 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.home.test.AdminDashboard;
+import com.home.test.Designer;
 import com.home.test.R;
 import com.home.test.Signup;
+import com.home.test.User;
 import com.home.test.designerNavigation;
 
 import java.util.ArrayList;
@@ -41,7 +48,10 @@ public class MainActivity extends AppCompatActivity {
     Spinner sp;
     TextInputEditText emaillogin;
     Toolbar tb ;
-
+    FirebaseDatabase database ;
+    DatabaseReference myRef;
+    static public User user = new User();
+    static public Designer designer = new Designer();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +68,10 @@ public class MainActivity extends AppCompatActivity {
         sp = (Spinner) findViewById(R.id.spinner);
 
         emaillogin = findViewById(R.id.usernamee);
+
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
         ArrayList<String> lang = new ArrayList<>();
         lang.add("English");
         lang.add("Arabic");
@@ -98,20 +112,46 @@ public class MainActivity extends AppCompatActivity {
         });
 
         login.setOnClickListener(view -> {
-            Intent ii = new Intent(MainActivity.this, NavigationPage.class);
-            Intent i = new Intent(MainActivity.this, AdminDashboard.class);
-            Intent iii = new Intent(MainActivity.this, designerNavigation.class);
-                startActivity(ii);
 
-            if(emaillogin.getText().toString().equals("d")){
-                startActivity(iii);
-            }
+            Intent i = new Intent(MainActivity.this, AdminDashboard.class);
+
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Iterable<DataSnapshot> users = snapshot.child("User").getChildren();
+                    Iterable<DataSnapshot> designers = snapshot.child("Designer").getChildren();
+
+                    Intent iii = new Intent(MainActivity.this, designerNavigation.class);
+                    Intent ii = new Intent(MainActivity.this, NavigationPage.class);
+
+                    for (DataSnapshot child : users) {
+                        if(child.child("email").getValue().toString().equals(email.getText().toString()) ){
+                            user.setUser(email.getText().toString());
+                            startActivity(ii);
+                        }
+                    }
+
+                    for (DataSnapshot child : designers) {
+                        if(child.child("email").getValue().toString().equals(email.getText().toString()) ){
+                            designer.setDesigner(email.getText().toString());
+                            startActivity(iii);
+                        }
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
             if(emaillogin.getText().toString().equals("a")){
                 startActivity(i);
             }
         });
         register.setOnClickListener(view -> {
-            Intent i = new Intent(MainActivity.this, NavigationPage.class);
+            Intent i = new Intent(MainActivity.this, Signup.class);
             startActivity(i);
         });
 

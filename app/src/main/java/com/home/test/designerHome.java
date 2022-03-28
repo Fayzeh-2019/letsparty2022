@@ -15,8 +15,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.home.test.databinding.FragmentDesignerHomeBinding;
+import com.home.test.ui.MainActivity;
 
 import java.util.ArrayList;
 
@@ -39,6 +41,7 @@ public class designerHome extends Fragment {
     Button design, offer;
     Spinner sp3;
     FragmentDesignerHomeBinding binding;
+    TextView desisnernametiltle;
     public designerHome() {
         // Required empty public constructor
     }
@@ -76,7 +79,7 @@ public class designerHome extends Fragment {
         design = root.findViewById(R.id.so);
         offer =root.findViewById(R.id.sd);
         sp3 = root.findViewById(R.id.spinner3);
-
+        desisnernametiltle =  root.findViewById(R.id.designernametitle);
         ArrayList<String> lang = new ArrayList<>();
         lang.add(" ");
         lang.add("Profile");
@@ -84,7 +87,7 @@ public class designerHome extends Fragment {
         ArrayAdapter<String> sp3adapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_dropdown_item, lang);
         sp3adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp3.setAdapter(sp3adapter);
-
+        desisnernametiltle.setText("Designer " + MainActivity.designer.getName());
         sp3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {

@@ -2,6 +2,7 @@ package com.home.test.ui;
 
 import android.os.Bundle;
 import android.text.Html;
+import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -18,17 +19,18 @@ import com.home.test.databinding.ActivityNavigationPageBinding;
 public class NavigationPage extends AppCompatActivity {
 
     private ActivityNavigationPageBinding binding;
-
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String mt = getResources().getString(R.string.title_home);
+        String mt = MainActivity.user.getName();
+        //getResources().getString(R.string.title_home);
 
         binding = ActivityNavigationPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        title = findViewById(R.id.mainTitle2);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
