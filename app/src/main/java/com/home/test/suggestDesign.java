@@ -49,14 +49,11 @@ public class suggestDesign extends AppCompatActivity {
                 d.setDesigner(designer);
                 d.setDescription(desc.getText().toString());
                 d.setPrice(price.getText().toString());
+                d.setApproved("no");
+                d.setOffer("no");
 
                 if(title.getText().toString() != null){
-                    myRef.push().setValue(d).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            Toast.makeText(suggestDesign.this, "Design added successfully!", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                    myRef.push().setValue(d);
                 }
             }
         });

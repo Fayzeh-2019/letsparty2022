@@ -39,7 +39,7 @@ public class AdminDashboard extends AppCompatActivity {
         off.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(AdminDashboard.this, designsAdmin.class);
+                Intent i = new Intent(AdminDashboard.this, offersAdmin.class);
                 i.putExtra("title",getResources().getString(R.string.offers));
                 startActivity(i);
             }

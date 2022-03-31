@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rel"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
@@ -104,7 +105,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/desdesc">
 
                 <view
-                    android:id="@+id/applicantchat"
+                    android:id="@+id/designaccept"
                     class="android.widget.Button"
                     android:layout_width="30dp"
                     android:layout_height="40dp"
@@ -115,25 +116,25 @@
                     android:background="@drawable/ic_baseline_done_24" />
 
                 <view
-                    android:id="@+id/applicantaccept"
+                    android:id="@+id/designchat"
                     class="android.widget.Button"
                     android:layout_width="27dp"
                     android:layout_height="30dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_toEndOf="@+id/applicantreject"
+                    android:layout_toEndOf="@+id/designreject"
                     android:background="@drawable/ic_chat" />
 
                 <view
-                    android:id="@+id/applicantreject"
+                    android:id="@+id/designreject"
                     class="android.widget.Button"
                     android:layout_width="30dp"
                     android:layout_height="40dp"
                     android:layout_alignParentBottom="true"
                     android:layout_marginStart="10dp"
                     android:layout_marginBottom="10dp"
-                    android:layout_toEndOf="@+id/applicantchat"
+                    android:layout_toEndOf="@+id/designaccept"
                     android:background="@drawable/ic_baseline_highlight_off_24" />
             </RelativeLayout>
 

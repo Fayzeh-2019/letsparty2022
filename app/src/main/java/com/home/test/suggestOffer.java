@@ -22,6 +22,7 @@ public class suggestOffer extends AppCompatActivity {
     FirebaseDatabase database ;
     DatabaseReference myRef;
     Button add;
+    Design offer = new Design();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,10 +48,10 @@ public class suggestOffer extends AppCompatActivity {
                         for (DataSnapshot child : designs) {
                             if (child.child("title").getValue().toString().equals(title.getText().toString())
                             && title.getText().toString() != null) {
-
                                 myRef.child(child.getKey()).child("description").setValue(desc.getText().toString());
                                 myRef.child(child.getKey()).child("price").setValue(price.getText().toString());
-
+                                myRef.child(child.getKey()).child("offer").setValue("yes");
+                                myRef.child(child.getKey()).child("approved").setValue("no");
                             }
                         }
                     }

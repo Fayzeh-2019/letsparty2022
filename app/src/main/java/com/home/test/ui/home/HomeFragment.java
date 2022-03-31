@@ -20,6 +20,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.home.test.Design;
 import com.home.test.DesignerProfile;
 import com.home.test.R;
 import com.home.test.UserProfile;
@@ -34,7 +38,7 @@ import java.util.ArrayList;
 public class HomeFragment extends Fragment {
 
     public FragmentHomeBinding binding;
-
+     DatabaseReference myRef;
     RecyclerView recycle;
     ArrayList<Integer> list;
     MyAdapter adapter;
@@ -79,15 +83,33 @@ public class HomeFragment extends Fragment {
             }
         });
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
-        recycle.setHasFixedSize(true);
-        list= new ArrayList<>();
-        list.add(8);
-        list.add(8);
-        list.add(8);
+        myRef = FirebaseDatabase.getInstance().getReference("Design");
+        FirebaseRecyclerOptions<Design> list = new FirebaseRecyclerOptions.Builder<Design>()
+                .setQuery(myRef, Design.class)
+                .build();
 
-        adapter = new MyAdapter(getContext(), list);
+
+        adapter = new MyAdapter( list);
         recycle.setAdapter(adapter);
 
         return root;
+
+
     }
+    @Override
+    public void onStart()
+    {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    // Function to tell the app to stop getting
+    // data from database on stoping of the activity
+    @Override
+    public void onStop()
+    {
+        super.onStop();
+        adapter.stopListening();
+    }
+
 }

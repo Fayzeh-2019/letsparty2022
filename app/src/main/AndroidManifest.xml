@@ -53,6 +53,9 @@
             android:name=".chatroom"
             android:exported="false" />
         <activity
+            android:name=".offersAdmin"
+            android:exported="false" />
+        <activity
             android:name=".Signup"
             android:exported="false" />
         <activity
