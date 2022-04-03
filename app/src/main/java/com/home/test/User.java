@@ -9,7 +9,7 @@ import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.NonNull;
 
 public class User {
-    String email;
+    public String email;
     String name;
     String password;
     String city;

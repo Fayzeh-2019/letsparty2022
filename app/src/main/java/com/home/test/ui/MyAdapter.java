@@ -16,6 +16,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.home.test.Applicant;
 import com.home.test.Design;
 import com.home.test.R;
 import com.home.test.chatroom;
@@ -31,7 +32,7 @@ public class MyAdapter extends FirebaseRecyclerAdapter<
         Design , MyAdapter.MyViewHolder> {
     private FirebaseDatabase database;
     public DatabaseReference myRef;
-
+    public static Applicant a = new Applicant();
 
     public MyAdapter(@NonNull FirebaseRecyclerOptions<Design> options){
         super(options);
@@ -49,6 +50,12 @@ public class MyAdapter extends FirebaseRecyclerAdapter<
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
+        a.setTitle(model.title);
+        a.setDesigner(model.designer);
+        a.setDescription(model.description);
+        a.setUser(MainActivity.user.email);
+        a.setPrice(model.price);
+
                 if (model.approved.equals("yes")) {
                     holder.name.setText(model.getTitle());
                     holder.price.setText(model.getPrice());
@@ -63,6 +70,10 @@ public class MyAdapter extends FirebaseRecyclerAdapter<
                     @Override
                     public void onClick(View view) {
                         Intent i = new Intent(view.getContext(), productpreview.class);
+                        i.putExtra("title",model.title);
+                        i.putExtra("desc",model.description);
+                        i.putExtra("designer",model.designer);
+                        i.putExtra("price",model.price);
                         view.getContext().startActivity(i);
                     }
                 });
