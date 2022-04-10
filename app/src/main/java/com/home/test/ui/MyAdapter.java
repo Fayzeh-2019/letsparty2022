@@ -50,11 +50,6 @@ public class MyAdapter extends FirebaseRecyclerAdapter<
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
-        a.setTitle(model.title);
-        a.setDesigner(model.designer);
-        a.setDescription(model.description);
-        a.setUser(MainActivity.user.email);
-        a.setPrice(model.price);
 
                 if (model.approved.equals("yes")) {
                     holder.name.setText(model.getTitle());
@@ -69,6 +64,11 @@ public class MyAdapter extends FirebaseRecyclerAdapter<
                 holder.img.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        a.setTitle(model.title);
+                        a.setDesigner(model.designer);
+                        a.setDescription(model.description);
+                        a.setUser(MainActivity.user.email);
+                        a.setPrice(model.price);
                         Intent i = new Intent(view.getContext(), productpreview.class);
                         i.putExtra("title",model.title);
                         i.putExtra("desc",model.description);

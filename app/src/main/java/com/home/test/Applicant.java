@@ -1,6 +1,7 @@
 package com.home.test;
 
 public class Applicant {
+
     public String user;
     public String date;
     public String time;

@@ -105,6 +105,13 @@ public void onBindViewHolder(@NonNull final MyViewHolder holder,
            });
         }
     });
+
+    holder.reject.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            getSnapshots().remove(holder.getAdapterPosition());
+        }
+    });
         }
 
 

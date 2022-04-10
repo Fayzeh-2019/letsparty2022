@@ -26,9 +26,8 @@ public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
     RecyclerView recycle;
-    ArrayList<Integer> list;
     MyOrdersAdapter adapter;
-
+    com.google.firebase.database.DatabaseReference myRef;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         DashboardViewModel dashboardViewModel =
@@ -45,12 +44,12 @@ public class DashboardFragment extends Fragment {
         recycle = root.findViewById(R.id.rec2);
         recycle.setLayoutManager(new LinearLayoutManager(getContext()));
         recycle.setHasFixedSize(true);
-        list= new ArrayList<>();
-        list.add(8);
-        list.add(8);
-        list.add(8);
+         myRef = com.google.firebase.database.FirebaseDatabase.getInstance().getReference("Applicant");
+        com.firebase.ui.database.FirebaseRecyclerOptions<com.home.test.Applicant> list = new com.firebase.ui.database.FirebaseRecyclerOptions.Builder<com.home.test.Applicant>()
+                .setQuery(myRef, com.home.test.Applicant.class)
+                .build();
 
-        adapter = new MyOrdersAdapter(getContext(), list);
+        adapter = new MyOrdersAdapter( list);
         recycle.setAdapter(adapter);
         return root;
     }
@@ -59,5 +58,19 @@ public class DashboardFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    @Override public void onStart()
+    {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    // Function to tell the app to stop getting
+    // data from database on stoping of the activity
+    @Override public void onStop()
+    {
+        super.onStop();
+        adapter.stopListening();
     }
 }

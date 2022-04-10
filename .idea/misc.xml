@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/drawable/attach.xml" value="0.175" />
+        <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.144" />
         <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/drawable/ic_email_black_24dp.xml" value="0.2075" />
         <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/drawable/ic_pass_24dp.xml" value="0.2075" />
         <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/drawable/language.xml" value="0.145" />
@@ -26,7 +27,7 @@
         <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/layout/activity_suggest_design.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/layout/activity_suggest_offer.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/layout/activity_user_profile.xml" value="0.15604959384352288" />
-        <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/layout/applicantscard.xml" value="0.1675929884566054" />
+        <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/layout/applicantscard.xml" value="0.33" />
         <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/layout/card.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/layout/chatcard.xml" value="0.1675929884566054" />
         <entry key="..\:/Users/cool_/Desktop/LetsParty/app/src/main/res/layout/designscard.xml" value="0.1675929884566054" />

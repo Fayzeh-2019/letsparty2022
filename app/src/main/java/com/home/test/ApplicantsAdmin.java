@@ -8,13 +8,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Bundle;
 import android.text.Html;
 
-import java.util.ArrayList;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class ApplicantsAdmin extends AppCompatActivity {
 
     RecyclerView recycle;
-    ArrayList<Integer> list;
     ApplicantsAdapter adapter;
+    static DatabaseReference myRef;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +30,26 @@ public class ApplicantsAdmin extends AppCompatActivity {
         recycle = findViewById(R.id.applicantsAdmin);
         recycle.setLayoutManager(new LinearLayoutManager(this));
         recycle.setHasFixedSize(true);
-        list= new ArrayList<>();
-        list.add(8);
-        list.add(8);
-        list.add(8);
 
-        adapter = new ApplicantsAdapter(this, list);
+        myRef = FirebaseDatabase.getInstance().getReference("Applicant");
+        FirebaseRecyclerOptions<Applicant> list = new FirebaseRecyclerOptions.Builder<Applicant>()
+                .setQuery(myRef, Applicant.class)
+                .build();
+        adapter = new ApplicantsAdapter( list);
         recycle.setAdapter(adapter);
+    }
+
+    @Override protected void onStart()
+    {
+        super.onStart();
+        adapter.startListening();
+    }
+
+    // Function to tell the app to stop getting
+    // data from database on stoping of the activity
+    @Override protected void onStop()
+    {
+        super.onStop();
+        adapter.stopListening();
     }
 }
