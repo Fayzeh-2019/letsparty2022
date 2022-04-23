@@ -2,6 +2,7 @@ package com.home.test.ui;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,9 @@ import com.home.test.chatroom;
 import com.home.test.productpreview;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -33,7 +37,7 @@ public class MyAdapter extends FirebaseRecyclerAdapter<
     private FirebaseDatabase database;
     public DatabaseReference myRef;
     public static Applicant a = new Applicant();
-
+    public static Map<Integer, Bitmap> imgs = new HashMap<>();
     public MyAdapter(@NonNull FirebaseRecyclerOptions<Design> options){
         super(options);
     }
@@ -55,7 +59,13 @@ public class MyAdapter extends FirebaseRecyclerAdapter<
                     holder.name.setText(model.getTitle());
                     holder.price.setText(model.getPrice());
                     holder.desc.setText(model.getDescription());
-                    holder.img.setImageResource(R.drawable.one);
+                    if(MainActivity.bitmapList.containsKey(model.title)) {
+                        holder.img.setImageBitmap(MainActivity.bitmapList.get(model.title));
+
+                    }
+                    else{
+                        holder.img.setImageResource(R.drawable.one);
+                    }
                 } else {
                     holder.card.removeAllViews();
                     holder.rel.removeView(holder.card);
@@ -64,6 +74,15 @@ public class MyAdapter extends FirebaseRecyclerAdapter<
                 holder.img.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        if(MainActivity.bitmapList.containsKey(model.title)) {
+                            imgs.put(0, MainActivity.bitmapList.get(model.title));
+;                            for (int i = 1; i < 4; i++) {
+                                if (MainActivity.bitmapList.containsKey(((String) (model.title + (i - 1))))) {
+                                    String s = ((String) (model.title + (i - 1)));
+                                    imgs.put(i, MainActivity.bitmapList.get(s));
+                                }
+                            }
+                        }
                         a.setTitle(model.title);
                         a.setDesigner(model.designer);
                         a.setDescription(model.description);

@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class designsAdmin extends AppCompatActivity {
 
     RecyclerView recycle;
-    designsAdminAdapter adapter;
+    static public designsAdminAdapter adapter;
     static DatabaseReference myRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {

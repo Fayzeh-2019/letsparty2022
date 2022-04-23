@@ -2,6 +2,7 @@ package com.home.test;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +10,12 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,8 +23,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.home.test.ui.MainActivity;
 import com.home.test.ui.NavigationPage;
+import com.home.test.ui.dashboard.DashboardFragment;
 
 import java.util.ArrayList;
 import androidx.annotation.NonNull;
@@ -63,7 +70,11 @@ public void onBindViewHolder(@NonNull final MyViewHolder holder,
                    holder.name.setText(model.getTitle());
                     holder.price.setText(model.getPrice());
                     holder.desc.setText(model.getDescription());
-                    holder.img.setImageResource(R.drawable.one);
+                    if(MainActivity.bitmapList.containsKey(model.title))
+                        holder.img.setImageBitmap(MainActivity.bitmapList.get(model.title));
+                    else{
+                        holder.img.setImageResource(R.drawable.one);
+                    }
                     for (DataSnapshot childd : designers) {
                         if (childd.child("email").getValue().toString().equals(model.getDesigner())) {
                             holder.dname.setText(childd.child("name").getValue().toString());
@@ -107,9 +118,27 @@ public void onBindViewHolder(@NonNull final MyViewHolder holder,
     });
 
     holder.reject.setOnClickListener(new View.OnClickListener() {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
         @Override
         public void onClick(View view) {
-            getSnapshots().remove(holder.getAdapterPosition());
+            String u = storageRef.child(model.title+".jpg").getDownloadUrl().toString();
+            if(!u.isEmpty()){
+                storageRef.child(model.title+".jpg").delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(view.getContext(), "rejected", Toast.LENGTH_SHORT).show();
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+            }
+            designsAdmin.adapter.getRef(holder.getAdapterPosition()).removeValue();
+
         }
     });
         }

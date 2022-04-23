@@ -4,29 +4,48 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.home.test.ui.MainActivity;
+import com.home.test.ui.MyAdapter;
 import com.home.test.ui.NavigationPage;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class productpreview extends AppCompatActivity {
 
     SliderView slider;
-    int[] images = {R.drawable.one,
-    R.drawable.two, R.drawable.three, R.drawable.four};
+    public static Map<Integer, Bitmap> images = new HashMap<>();
+
     TextView ti, de;
     Button book;
-
+    static  imageSligerAdapter ad;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_productpreview);
+
+
+        if(MyAdapter.imgs.isEmpty()){
+
+        }else{
+            images.put(0, MainActivity.bitmapList.get(getIntent().getStringExtra("title")));
+            for(int i =1; i< MyAdapter.imgs.size(); i++){
+                if(MainActivity.bitmapList.containsKey(getIntent().getStringExtra("title"+(i-1)))){
+                    images.put(i, MainActivity.bitmapList.get(getIntent().getStringExtra("title"+(i-1))));
+                }
+            }
+        }
+        //images.put(0,MainActivity.bitmap);
+
 
         String mt = getResources().getString(R.string.app_name);
         ActionBar ab = getSupportActionBar();
@@ -41,7 +60,9 @@ public class productpreview extends AppCompatActivity {
         de.setText(getIntent().getStringExtra("desc"));
 
         slider = findViewById(R.id.imageSlider);
-       imageSligerAdapter ad = new imageSligerAdapter(images);
+        ad = new imageSligerAdapter(images);
+
+
        slider.setSliderAdapter(ad);
        slider.setIndicatorAnimation(IndicatorAnimationType.WORM);
        slider.setSliderTransformAnimation(SliderAnimations.DEPTHTRANSFORMATION);

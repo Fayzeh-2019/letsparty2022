@@ -39,9 +39,14 @@
 
     <ListView
         android:id="@+id/listview"
-        android:layout_width="399dp"
-        android:layout_height="757dp"
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
         android:layout_marginTop="6dp"
+        android:layout_weight="1"
+        android:background="@null"
+        android:divider="@null"
+        android:stackFromBottom="true"
+        android:transcriptMode="alwaysScroll"
         app:layout_constraintBottom_toTopOf="@+id/rel"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +61,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
+        android:weightSum="3"
         app:layout_constraintStart_toStartOf="parent">
 
         <View
@@ -64,26 +70,21 @@
             android:background="@color/purple_500" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
-            android:layout_width="280dp"
-            android:layout_height="70dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="12dp"
+            android:id="@+id/messagg"
+            android:layout_width="300dp"
+            android:layout_height="fill_parent"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="56dp"
+            android:layout_marginEnd="5dp"
             android:layout_toStartOf="@+id/imageView4"
-            android:ems="10"
-            android:hint="@string/writehere"
-            android:inputType="textPersonName"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageView4"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_weight="2"
+            android:paddingStart="10dp" />
 
         <ImageView
             android:id="@+id/imageView4"
             android:layout_width="50dp"
             android:layout_height="50dp"
+            android:layout_weight="1"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="2dp"

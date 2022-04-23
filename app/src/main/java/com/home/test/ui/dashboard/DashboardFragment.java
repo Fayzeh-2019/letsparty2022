@@ -1,5 +1,7 @@
 package com.home.test.ui.dashboard;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
@@ -15,18 +17,24 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.home.test.R;
 import com.home.test.databinding.FragmentDashboardBinding;
 import com.home.test.ui.MyAdapter;
 import com.home.test.ui.MyOrdersAdapter;
 
+import java.io.File;
 import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment {
 
     private FragmentDashboardBinding binding;
     RecyclerView recycle;
-    MyOrdersAdapter adapter;
+    static public MyOrdersAdapter adapter;
     com.google.firebase.database.DatabaseReference myRef;
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {

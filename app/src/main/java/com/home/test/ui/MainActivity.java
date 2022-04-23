@@ -8,11 +8,14 @@ import androidx.appcompat.widget.Toolbar;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.AdaptiveIconDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.Icon;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -24,6 +27,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
@@ -31,6 +36,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.home.test.AdminDashboard;
 import com.home.test.Designer;
 import com.home.test.R;
@@ -38,8 +46,12 @@ import com.home.test.Signup;
 import com.home.test.User;
 import com.home.test.designerNavigation;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -50,6 +62,8 @@ public class MainActivity extends AppCompatActivity {
     Toolbar tb ;
     FirebaseDatabase database ;
     DatabaseReference myRef;
+    static public Bitmap bitmap, bitmap2;
+    public static Map<String, Bitmap> bitmapList = new HashMap<>();
     static public User user = new User();
     static public Designer designer = new Designer();
     @Override
@@ -154,6 +168,67 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(MainActivity.this, Signup.class);
             startActivity(i);
         });
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference();
+
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Iterable<DataSnapshot> designs = snapshot.child("Design").getChildren();
+                    for (DataSnapshot child : designs) {
+                        try{
+                        StorageReference pathReference = storageRef.child(child.child("title").getValue().toString() + ".jpg");
+                        File localfile = File.createTempFile(child.child("title").getValue().toString(), "jpg");
+                        pathReference.getFile(localfile).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
+                                bitmapList.put(child.child("title").getValue().toString(), bitmap);
+
+                                if(child.child("title").getValue().toString() == "beach wedding partyy"){
+                                    for(int i =0; i< 4; i++){
+                                        StorageReference pathReference2 = storageRef.child(child.child("title").getValue().toString()+i + ".jpg");
+                                        try {
+                                            File localfile2 = File.createTempFile(child.child("title").getValue().toString()+i, "jpg");
+                                            int finalI = i;
+                                            pathReference2.getFile(localfile2).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                                                    bitmap = BitmapFactory.decodeFile(localfile2.getAbsolutePath());
+                                                    bitmapList.put(child.child("title").getValue().toString()+ finalI, bitmap);
+                                                }
+                                            }).addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+
+                                                }
+                                            });
+                                        } catch (IOException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                }
+
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+
+                            }
+
+                        });
+                        }catch(Exception e){}
+                    }
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
 
 
     }

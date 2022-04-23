@@ -1,15 +1,27 @@
 package com.home.test.ui;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.storage.FileDownloadTask;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.home.test.R;
 import com.home.test.chatroom;
+import com.home.test.ui.dashboard.DashboardFragment;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import androidx.annotation.NonNull;
@@ -20,7 +32,7 @@ public class MyOrdersAdapter extends com.firebase.ui.database.FirebaseRecyclerAd
         com.home.test.Applicant, MyOrdersAdapter.MyViewHolder> {
 
   private com.google.firebase.database.FirebaseDatabase database;
-    public com.google.firebase.database.DatabaseReference myRef;
+  public com.google.firebase.database.DatabaseReference myRef;
 
 
     public MyOrdersAdapter(@NonNull com.firebase.ui.database.FirebaseRecyclerOptions<com.home.test.Applicant> options){
@@ -39,6 +51,7 @@ public class MyOrdersAdapter extends com.firebase.ui.database.FirebaseRecyclerAd
         database = com.google.firebase.database.FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
+
         if(MainActivity.user.email != null){
             if(model.approved.equals("yes") && model.user.equals(MainActivity.user.email)){
                 ((ViewGroup) holder.delete.getParent()).removeView(holder.delete);
@@ -48,6 +61,11 @@ public class MyOrdersAdapter extends com.firebase.ui.database.FirebaseRecyclerAd
                 holder.date2.setText(model.date+ " " +
                         model.time);
                 holder.atendees2.setText(model.atendees);
+                if(MainActivity.bitmapList.containsKey(model.title))
+                    holder.img.setImageBitmap(MainActivity.bitmapList.get(model.title));
+                else{
+                    holder.img.setImageResource(R.drawable.one);
+                }
             }else {
                 holder.card.removeAllViews();
                 holder.rr.removeView(holder.card);
@@ -64,18 +82,22 @@ public class MyOrdersAdapter extends com.firebase.ui.database.FirebaseRecyclerAd
                 holder.date2.setText(model.date+ " " +
                         model.time);
                 holder.atendees2.setText(model.atendees);
+                if(MainActivity.bitmapList.containsKey(model.title))
+                    holder.img.setImageBitmap(MainActivity.bitmapList.get(model.title));
+                else{
+                    holder.img.setImageResource(R.drawable.one);
+                }
             }else {
                 holder.card.removeAllViews();
                 holder.rr.removeView(holder.card);
             }
-
 
         }
 
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                getSnapshots().remove(holder.getAdapterPosition());
+                DashboardFragment.adapter.getRef(holder.getAdapterPosition()).removeValue();
             }
         });
 
