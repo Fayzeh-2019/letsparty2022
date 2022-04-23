@@ -53,6 +53,7 @@ public class chatroom extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 sendChatMessage(true);
+                chatText.setText("");
                 sendChatMessage2( new ChatMessage(false,"Hello hello"));
             }
         });

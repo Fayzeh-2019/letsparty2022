@@ -57,7 +57,7 @@
     <RelativeLayout
         android:id="@+id/rel"
         android:layout_width="413dp"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
