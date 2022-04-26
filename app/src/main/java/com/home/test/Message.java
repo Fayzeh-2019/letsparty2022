@@ -9,13 +9,13 @@ public class Message implements Serializable {
     String name;
     String to;
     String message;
-    DateTime dateTime;
+    java.util.Date dateTime;
 
     public Message(){
         name = null; message = null; to = null; dateTime =null;
     }
 
-    public Message(String s, String m, String to , DateTime dateTime){
+    public Message(String s, String m, String to , java.util.Date dateTime){
         name= s; message=m; to = this.to; dateTime= this.dateTime;
     }
 
@@ -23,11 +23,11 @@ public class Message implements Serializable {
         return to;
     }
 
-    public DateTime getDateTime() {
+    public java.util.Date getDateTime() {
         return dateTime;
     }
 
-    public void setDateTime(DateTime dateTime) {
+    public void setDateTime(java.util.Date dateTime) {
         this.dateTime = dateTime;
     }
 

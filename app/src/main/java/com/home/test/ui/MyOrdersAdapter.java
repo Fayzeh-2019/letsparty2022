@@ -104,8 +104,16 @@ public class MyOrdersAdapter extends com.firebase.ui.database.FirebaseRecyclerAd
         holder.chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(view.getContext(), chatroom.class);
-                view.getContext().startActivity(i);
+                if(MainActivity.designer.email != null){
+                    Intent i = new Intent(view.getContext(), chatroom.class);
+                    i.putExtra("user",model.user);
+                    view.getContext().startActivity(i);
+                }
+                if(MainActivity.user.email != null){
+                    Intent i = new Intent(view.getContext(), chatroom.class);
+                    i.putExtra("designer",model.designer);
+                    view.getContext().startActivity(i);
+                }
             }
         });
 
