@@ -34,18 +34,14 @@ public class productpreview extends AppCompatActivity {
         setContentView(R.layout.activity_productpreview);
 
 
-        if(MyAdapter.imgs.isEmpty()){
-
-        }else{
-            images.put(0, MainActivity.bitmapList.get(getIntent().getStringExtra("title")));
-            for(int i =1; i< MyAdapter.imgs.size(); i++){
-                if(MainActivity.bitmapList.containsKey(getIntent().getStringExtra("title"+(i-1)))){
-                    images.put(i, MainActivity.bitmapList.get(getIntent().getStringExtra("title"+(i-1))));
+            images.put(0, MyAdapter.imgs.get(0));
+            for(int i = 1; i<=4; i = i+1){
+                if( MainActivity.bitmapList.containsKey(getIntent().getStringExtra("title")+i)) {
+                    images.put(i, MyAdapter.imgs.get(i));
                 }
             }
-        }
-        //images.put(0,MainActivity.bitmap);
 
+        //images.put(0,MainActivity.bitmap);
 
         String mt = getResources().getString(R.string.app_name);
         ActionBar ab = getSupportActionBar();
@@ -56,7 +52,7 @@ public class productpreview extends AppCompatActivity {
         ti = findViewById(R.id.textView8);
         de = findViewById(R.id.textView9);
 
-        ti.setText(getIntent().getStringExtra("title"));
+        ti.setText(getIntent().getStringExtra("title").toString());
         de.setText(getIntent().getStringExtra("desc"));
 
         slider = findViewById(R.id.imageSlider);

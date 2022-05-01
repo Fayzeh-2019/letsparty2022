@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
     public static Map<String, Bitmap> bitmapList = new HashMap<>();
     static public User user = new User();
     static public Designer designer = new Designer();
+
+    static String helper = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
                     title.setText(R.string.login_account);
                     email.setHint(R.string.email);
                     password.setText("*******");
-                    forgot.setText(R.string.forgot);
+                    forgot.setText("");
                     login.setText(R.string.login);
                     mainTitle.setText(R.string.app_name);
 
@@ -116,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                     title.setText(R.string.login_account);
                     email.setHint(R.string.email);
                     password.setHint(R.string.passwrd);
-                    forgot.setText(R.string.forgot);
+                    forgot.setText("");
                     login.setText(R.string.login);
                     mainTitle.setText(R.string.app_name);}
             }
@@ -136,20 +138,37 @@ public class MainActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Iterable<DataSnapshot> users = snapshot.child("User").getChildren();
                     Iterable<DataSnapshot> designers = snapshot.child("Designer").getChildren();
+                    Iterable<DataSnapshot> admin = snapshot.child("Admin").getChildren();
 
                     Intent iii = new Intent(MainActivity.this, designerNavigation.class);
                     Intent ii = new Intent(MainActivity.this, NavigationPage.class);
 
                     for (DataSnapshot child : users) {
-                        if(child.child("email").getValue().toString().equals(email.getText().toString()) ){
+                        if(child.child("email").getValue().toString().equals(email.getText().toString())
+                        && child.child("password").getValue().toString().equals(password.getText().toString())){
                             user.setUser(email.getText().toString());
+                            helper = "done";
+                            forgot.setTextColor(0x00000000);
                             startActivity(ii);
                         }
                     }
 
+                    for (DataSnapshot child : admin) {
+                        if(child.child("email").getValue().toString().equals(email.getText().toString())
+                                && child.child("password").getValue().toString().equals(password.getText().toString())){
+                            helper = "done";
+                            i.putExtra("adminName",child.child("name").getValue().toString());
+                            forgot.setTextColor(0x00000000);
+                            startActivity(i);
+                        }
+                    }
+
                     for (DataSnapshot child : designers) {
-                        if(child.child("email").getValue().toString().equals(email.getText().toString()) ){
+                        if(child.child("email").getValue().toString().equals(email.getText().toString())
+                                && child.child("password").getValue().toString().equals(password.getText().toString()) ){
                             designer.setDesigner(email.getText().toString());
+                            helper = "done";
+                            forgot.setTextColor(0x00000000);
                             startActivity(iii);
                         }
                     }
@@ -161,15 +180,16 @@ public class MainActivity extends AppCompatActivity {
 
                 }
             });
-
-            if(emaillogin.getText().toString().equals("a")){
-                startActivity(i);
-            }
+            if(!helper.equals("done")){ forgot.setText("username or password is not correct!!");}
         });
+
+
         register.setOnClickListener(view -> {
             Intent i = new Intent(MainActivity.this, Signup.class);
             startActivity(i);
         });
+
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
@@ -187,8 +207,7 @@ public class MainActivity extends AppCompatActivity {
                                 bitmap = BitmapFactory.decodeFile(localfile.getAbsolutePath());
                                 bitmapList.put(child.child("title").getValue().toString(), bitmap);
 
-                                if(child.child("title").getValue().toString() == "beach wedding partyy"){
-                                    for(int i =0; i< 4; i++){
+                                    for(int i =1; i <= 4; i++){
                                         StorageReference pathReference2 = storageRef.child(child.child("title").getValue().toString()+i + ".jpg");
                                         try {
                                             File localfile2 = File.createTempFile(child.child("title").getValue().toString()+i, "jpg");
@@ -198,6 +217,8 @@ public class MainActivity extends AppCompatActivity {
                                                 public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                                                     bitmap = BitmapFactory.decodeFile(localfile2.getAbsolutePath());
                                                     bitmapList.put(child.child("title").getValue().toString()+ finalI, bitmap);
+                                                    if(user.email != null || designer.email != null){
+                                                    MainActivity.listMessages.fillImg(child.child("title").getValue().toString());}
                                                 }
                                             }).addOnFailureListener(new OnFailureListener() {
                                                 @Override
@@ -210,7 +231,7 @@ public class MainActivity extends AppCompatActivity {
                                         }
 
                                     }
-                                }
+
 
 
                             }

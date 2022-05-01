@@ -1,5 +1,6 @@
 package com.home.test;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -97,7 +98,10 @@ public class designerHome extends Fragment {
                     startActivity(ii);
                     adapterView.setSelection(0);
                 }
-                if(adapterView.getItemAtPosition(i).toString().equals("logout") ){
+                if(adapterView.getItemAtPosition(i).toString().equals("Logout") ){
+                    ((Activity) getContext()).finish();
+                    MainActivity.designer.email = null;
+                    adapterView.setSelection(0);
                    }
             }
 

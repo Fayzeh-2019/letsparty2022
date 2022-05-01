@@ -38,7 +38,6 @@ public class chatroom extends AppCompatActivity {
      String ee2 ;
      int index2;
      String userName2 ;
-    String tempm;
      ValueEventListener valueEventListener ;
 
      private com.google.firebase.database.FirebaseDatabase database;
@@ -112,6 +111,7 @@ public class chatroom extends AppCompatActivity {
             }
         });
         chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.activity_right);
+        chatArrayAdapter.clear();
         listy.setAdapter(chatArrayAdapter);
 
         listy.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);

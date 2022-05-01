@@ -1,5 +1,8 @@
 package com.home.test;
 
+import com.home.test.ui.MainActivity;
+import com.home.test.ui.MyAdapter;
+
 import java.util.ArrayList;
 
 public class ListMessages {
@@ -70,5 +73,16 @@ public class ListMessages {
 
                 }
             });
+        }
+
+        public void fillImg(String title){
+
+            MyAdapter.imgs.put(0, MainActivity.bitmapList.get(title));
+            for (int i = 1; i < 4; i++) {
+                if (MainActivity.bitmapList.containsKey(title + (i))) {
+                    String s = title + (i);
+                    MyAdapter.imgs.put(i, MainActivity.bitmapList.get(s));
+                }
+            }
         }
 }

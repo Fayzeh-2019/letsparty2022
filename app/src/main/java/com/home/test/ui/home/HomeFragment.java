@@ -1,5 +1,6 @@
 package com.home.test.ui.home;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
@@ -74,7 +75,9 @@ public class HomeFragment extends Fragment {
                     startActivity(ii);
                     adapterView.setSelection(0);
                 }
-                if(adapterView.getItemAtPosition(i).toString().equals("logout") ){
+                if(adapterView.getItemAtPosition(i).toString().equals("Logout") ){
+                    ((Activity) getContext()).finish();
+                    MainActivity.user.email = null;
                 }
             }
 

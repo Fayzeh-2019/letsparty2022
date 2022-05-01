@@ -54,7 +54,7 @@ public class MyOrdersAdapter extends com.firebase.ui.database.FirebaseRecyclerAd
 
         if(MainActivity.user.email != null){
             if(model.approved.equals("yes") && model.user.equals(MainActivity.user.email)){
-                ((ViewGroup) holder.delete.getParent()).removeView(holder.delete);
+                holder.delete.setColorFilter(0x00000000);
                 holder.name.setText(model.title);
                 holder.desc.setText(model.description);
                 holder.price.setText(model.price);
@@ -94,13 +94,14 @@ public class MyOrdersAdapter extends com.firebase.ui.database.FirebaseRecyclerAd
 
         }
 
-        holder.delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DashboardFragment.adapter.getRef(holder.getAdapterPosition()).removeValue();
-            }
-        });
-
+        if(MainActivity.designer.email != null) {
+            holder.delete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DashboardFragment.adapter.getRef(holder.getAdapterPosition()).removeValue();
+                }
+            });
+        }
         holder.chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,7 +112,7 @@ public class MyOrdersAdapter extends com.firebase.ui.database.FirebaseRecyclerAd
                 }
                 if(MainActivity.user.email != null){
                     Intent i = new Intent(view.getContext(), chatroom.class);
-                    i.putExtra("designer",model.designer);
+                    i.putExtra("user",model.designer);
                     view.getContext().startActivity(i);
                 }
             }

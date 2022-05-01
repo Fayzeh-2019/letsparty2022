@@ -38,6 +38,7 @@ public class MyAdapter extends FirebaseRecyclerAdapter<
     public DatabaseReference myRef;
     public static Applicant a = new Applicant();
     public static Map<Integer, Bitmap> imgs = new HashMap<>();
+
     public MyAdapter(@NonNull FirebaseRecyclerOptions<Design> options){
         super(options);
     }
@@ -53,7 +54,6 @@ public class MyAdapter extends FirebaseRecyclerAdapter<
     public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position, @NonNull final Design model) {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
-
 
                 if (model.approved.equals("yes")) {
                     holder.name.setText(model.getTitle());
@@ -71,29 +71,34 @@ public class MyAdapter extends FirebaseRecyclerAdapter<
                     holder.rel.removeView(holder.card);
                 }
 
+
+
                 holder.img.setOnClickListener(new View.OnClickListener() {
+
                     @Override
                     public void onClick(View view) {
+                        productpreview.images.clear();
                         if(MainActivity.bitmapList.containsKey(model.title)) {
                             imgs.put(0, MainActivity.bitmapList.get(model.title));
-;                            for (int i = 1; i < 4; i++) {
-                                if (MainActivity.bitmapList.containsKey(((String) (model.title + (i - 1))))) {
-                                    String s = ((String) (model.title + (i - 1)));
-                                    imgs.put(i, MainActivity.bitmapList.get(s));
+                                for (int i = 1; i < 4; i++) {
+                                    if (MainActivity.bitmapList.containsKey(model.title + (i))) {
+                                        String s = model.title + (i);
+                                        imgs.put(i, MainActivity.bitmapList.get(s));
+                                    }
                                 }
-                            }
+                            a.setTitle(model.title);
+                            a.setDesigner(model.designer);
+                            a.setDescription(model.description);
+                            a.setUser(MainActivity.user.email);
+                            a.setPrice(model.price);
+                            Intent i = new Intent(view.getContext(), productpreview.class);
+                            i.putExtra("title",model.title);
+                            i.putExtra("desc",model.description);
+                            i.putExtra("designer",model.designer);
+                            i.putExtra("price",model.price);
+                            view.getContext().startActivity(i);
                         }
-                        a.setTitle(model.title);
-                        a.setDesigner(model.designer);
-                        a.setDescription(model.description);
-                        a.setUser(MainActivity.user.email);
-                        a.setPrice(model.price);
-                        Intent i = new Intent(view.getContext(), productpreview.class);
-                        i.putExtra("title",model.title);
-                        i.putExtra("desc",model.description);
-                        i.putExtra("designer",model.designer);
-                        i.putExtra("price",model.price);
-                        view.getContext().startActivity(i);
+
                     }
                 });
 

@@ -8,10 +8,12 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class AdminDashboard extends AppCompatActivity {
 
     Button des,off,appl,profile;
+    TextView name;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,7 +28,9 @@ public class AdminDashboard extends AppCompatActivity {
         off = findViewById(R.id.offers);
         appl = findViewById(R.id.applicants);
         profile = findViewById(R.id.Adminprofile);
+        name = findViewById(R.id.adminName);
 
+        name.setText("Admin "+getIntent().getStringExtra("adminName"));
         des.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
