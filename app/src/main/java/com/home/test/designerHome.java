@@ -80,6 +80,7 @@ public class designerHome extends Fragment {
         offer =root.findViewById(R.id.sd);
         sp3 = root.findViewById(R.id.spinner3);
         desisnernametiltle =  root.findViewById(R.id.designernametitle);
+        MainActivity.listMessages.fill();
         ArrayList<String> lang = new ArrayList<>();
         lang.add(" ");
         lang.add("Profile");

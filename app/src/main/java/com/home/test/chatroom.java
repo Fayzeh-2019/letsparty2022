@@ -12,25 +12,28 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class chatroom extends AppCompatActivity {
 
     private ChatArrayAdapter chatArrayAdapter;
     EditText chatText;
+    TextView user;
     ImageView send;
     ListView listy;
 
 
-    static String ee;
-    static int index;
-    static String userName;
-    static String ee2 ;
-    static int index2;
-    static String userName2 ;
+     String ee;
+     int index;
+     String userName;
+     String ee2 ;
+     int index2;
+     String userName2 ;
 
      private com.google.firebase.database.FirebaseDatabase database;
     public com.google.firebase.database.DatabaseReference myRef;
+    public com.google.firebase.database.DatabaseReference myRef2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,7 +49,7 @@ public class chatroom extends AppCompatActivity {
             userName2 = ee2.substring(0, index2);
         }
         if(com.home.test.ui.MainActivity.user.email != null){
-            ee =getIntent().getStringExtra("designer");
+            ee =getIntent().getStringExtra("user");
             index= ee.indexOf('@');
             userName = ee.substring(0, index);
             ee2 =com.home.test.ui.MainActivity.user.email;
@@ -62,23 +65,53 @@ public class chatroom extends AppCompatActivity {
 
           database = com.google.firebase.database.FirebaseDatabase.getInstance();
         myRef = database.getReference("Messages");
+        myRef2 = database.getReference();
 
         chatText = (EditText) findViewById(R.id.messagg);
         listy = findViewById(R.id.listview);
         send = findViewById(R.id.imageView4);
+        user = findViewById(R.id.usernamechat);
+        myRef2.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
 
+            @Override
+            public void onDataChange(@androidx.annotation.NonNull com.google.firebase.database.DataSnapshot snapshot) {
+
+
+                Iterable<com.google.firebase.database.DataSnapshot> users = snapshot.child("User").getChildren();
+                for (com.google.firebase.database.DataSnapshot childd : users) {
+                    if(childd.child("email").getValue().toString().equals(getIntent().getStringExtra("user"))) {
+                        user.setText(childd.child("name").getValue().toString());
+                    }
+                }
+                Iterable<com.google.firebase.database.DataSnapshot> designers = snapshot.child("Designer").getChildren();
+                for (com.google.firebase.database.DataSnapshot child : designers) {
+                    if(child.child("email").getValue().toString().equals(getIntent().getStringExtra("user"))) {
+                        user.setText(child.child("name").getValue().toString());
+                    }
+                }
+
+
+
+
+            }
+
+
+            @Override
+            public void onCancelled(@androidx.annotation.NonNull com.google.firebase.database.DatabaseError error) {
+
+            }
+        });
         chatArrayAdapter = new ChatArrayAdapter(getApplicationContext(), R.layout.activity_right);
         listy.setAdapter(chatArrayAdapter);
 
         listy.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         listy.setAdapter(chatArrayAdapter);
 
-        if(chatArrayAdapter.chatMessageList.isEmpty()) {
         myRef.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
 
                 @Override
                 public void onDataChange(@androidx.annotation.NonNull com.google.firebase.database.DataSnapshot snapshot) {
-
+                    chatArrayAdapter.clear();
                     if(com.home.test.ui.MainActivity.designer.email != null){
                         Iterable<com.google.firebase.database.DataSnapshot> messages = snapshot.getChildren();
                         for (com.google.firebase.database.DataSnapshot child : messages) {
@@ -101,7 +134,7 @@ public class chatroom extends AppCompatActivity {
                     if(com.home.test.ui.MainActivity.user.email != null){
                         Iterable<com.google.firebase.database.DataSnapshot> messages = snapshot.getChildren();
                         for (com.google.firebase.database.DataSnapshot child : messages) {
-                            if(child.getKey().equals(userName + userName2)){
+                            if(child.getKey().contains(userName2)){
                                 Iterable<com.google.firebase.database.DataSnapshot> message = snapshot.child(child.getKey()).getChildren();
                                 for (com.google.firebase.database.DataSnapshot childd : message) {
                                     if(childd.child("name").getValue().toString().equals(com.home.test.ui.MainActivity.user.email)){
@@ -124,7 +157,7 @@ public class chatroom extends AppCompatActivity {
 
                 }
             });
-}
+
         //to scroll the list view to bottom on data change
         chatArrayAdapter.registerDataSetObserver(new DataSetObserver() {
             @Override
@@ -136,7 +169,6 @@ public class chatroom extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                sendChatMessage(true);
                 if(com.home.test.ui.MainActivity.designer.email != null){
                     Message m = new Message();
                     m.setDateTime( java.util.Calendar.getInstance().getTime());
@@ -158,7 +190,11 @@ public class chatroom extends AppCompatActivity {
 
             }
         });
+
     }
+
+
+
 
 
     private boolean sendChatMessage(boolean h) {

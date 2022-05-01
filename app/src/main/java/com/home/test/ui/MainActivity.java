@@ -41,6 +41,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.home.test.AdminDashboard;
 import com.home.test.Designer;
+import com.home.test.ListMessages;
 import com.home.test.R;
 import com.home.test.Signup;
 import com.home.test.User;
@@ -54,7 +55,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
+    static public ListMessages listMessages = new ListMessages();
     Button login;
     TextView register, title, email, password, forgot, mainTitle;
     Spinner sp;
@@ -62,6 +63,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar tb ;
     FirebaseDatabase database ;
     DatabaseReference myRef;
+
     static public Bitmap bitmap, bitmap2;
     public static Map<String, Bitmap> bitmapList = new HashMap<>();
     static public User user = new User();

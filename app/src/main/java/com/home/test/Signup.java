@@ -76,8 +76,8 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                u.setEmail(email.getText().toString());
-                u.setName(name.getText().toString());
+                u.setEmail(name.getText().toString());
+                u.setName(email.getText().toString());
                 u.setPassword(pass.getText().toString());
                 u.setCity(city.getText().toString());
 

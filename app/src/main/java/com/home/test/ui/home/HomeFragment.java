@@ -29,6 +29,7 @@ import com.home.test.R;
 import com.home.test.UserProfile;
 import com.home.test.databinding.FragmentDashboardBinding;
 import com.home.test.databinding.FragmentHomeBinding;
+import com.home.test.ui.MainActivity;
 import com.home.test.ui.MyAdapter;
 import com.home.test.ui.dashboard.DashboardViewModel;
 
@@ -55,7 +56,7 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
+        MainActivity.listMessages.fill();
         recycle = root.findViewById(R.id.rec1);
         sp2 = root.findViewById(R.id.spinner2);
         ArrayList<String> lang = new ArrayList<>();

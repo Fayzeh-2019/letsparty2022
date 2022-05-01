@@ -23,6 +23,10 @@ class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
         super.add(object);
     }
 
+    public void clear(){
+        chatMessageList.clear();
+    }
+
     public ChatArrayAdapter(Context context, int textViewResourceId) {
         super(context, textViewResourceId);
         this.context = context;
