@@ -8,6 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +23,10 @@ class ChatArrayAdapter extends ArrayAdapter<ChatMessage> {
     public void add(ChatMessage object) {
         chatMessageList.add(object);
         super.add(object);
+    }
+
+    public void addToDatabase(Message m, DatabaseReference myRef, String userName,String userName2) {
+        myRef.child(userName +userName2).push().setValue(m);
     }
 
     public void clear(){

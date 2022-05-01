@@ -1,5 +1,6 @@
 package com.home.test;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +16,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class chatroom extends AppCompatActivity {
 
     private ChatArrayAdapter chatArrayAdapter;
@@ -22,7 +30,7 @@ public class chatroom extends AppCompatActivity {
     TextView user;
     ImageView send;
     ListView listy;
-
+    List<Message> MessageList = new ArrayList<Message>();
 
      String ee;
      int index;
@@ -30,6 +38,8 @@ public class chatroom extends AppCompatActivity {
      String ee2 ;
      int index2;
      String userName2 ;
+    String tempm;
+     ValueEventListener valueEventListener ;
 
      private com.google.firebase.database.FirebaseDatabase database;
     public com.google.firebase.database.DatabaseReference myRef;
@@ -39,31 +49,31 @@ public class chatroom extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatroom);
 
-        if(com.home.test.ui.MainActivity.designer.email != null){
-            ee =com.home.test.ui.MainActivity
+        if (com.home.test.ui.MainActivity.designer.email != null) {
+            ee = com.home.test.ui.MainActivity
                     .designer.email;
-            index= ee.indexOf('@');
+            index = ee.indexOf('@');
             userName = ee.substring(0, index);
-            ee2 =getIntent().getStringExtra("user");
-            index2= ee2.indexOf('@');
+            ee2 = getIntent().getStringExtra("user");
+            index2 = ee2.indexOf('@');
             userName2 = ee2.substring(0, index2);
         }
-        if(com.home.test.ui.MainActivity.user.email != null){
-            ee =getIntent().getStringExtra("user");
-            index= ee.indexOf('@');
+        if (com.home.test.ui.MainActivity.user.email != null) {
+            ee = getIntent().getStringExtra("user");
+            index = ee.indexOf('@');
             userName = ee.substring(0, index);
-            ee2 =com.home.test.ui.MainActivity.user.email;
-            index2= ee2.indexOf('@');
+            ee2 = com.home.test.ui.MainActivity.user.email;
+            index2 = ee2.indexOf('@');
             userName2 = ee2.substring(0, index2);
         }
 
 
         String mt = getResources().getString(R.string.title_chatroom);
-        ActionBar ab = ((AppCompatActivity)this).getSupportActionBar();
+        ActionBar ab = ((AppCompatActivity) this).getSupportActionBar();
 
         ab.hide();
 
-          database = com.google.firebase.database.FirebaseDatabase.getInstance();
+        database = com.google.firebase.database.FirebaseDatabase.getInstance();
         myRef = database.getReference("Messages");
         myRef2 = database.getReference();
 
@@ -71,6 +81,8 @@ public class chatroom extends AppCompatActivity {
         listy = findViewById(R.id.listview);
         send = findViewById(R.id.imageView4);
         user = findViewById(R.id.usernamechat);
+
+
         myRef2.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
 
             @Override
@@ -79,18 +91,16 @@ public class chatroom extends AppCompatActivity {
 
                 Iterable<com.google.firebase.database.DataSnapshot> users = snapshot.child("User").getChildren();
                 for (com.google.firebase.database.DataSnapshot childd : users) {
-                    if(childd.child("email").getValue().toString().equals(getIntent().getStringExtra("user"))) {
+                    if (childd.child("email").getValue().toString().equals(getIntent().getStringExtra("user"))) {
                         user.setText(childd.child("name").getValue().toString());
                     }
                 }
                 Iterable<com.google.firebase.database.DataSnapshot> designers = snapshot.child("Designer").getChildren();
                 for (com.google.firebase.database.DataSnapshot child : designers) {
-                    if(child.child("email").getValue().toString().equals(getIntent().getStringExtra("user"))) {
+                    if (child.child("email").getValue().toString().equals(getIntent().getStringExtra("user"))) {
                         user.setText(child.child("name").getValue().toString());
                     }
                 }
-
-
 
 
             }
@@ -107,21 +117,23 @@ public class chatroom extends AppCompatActivity {
         listy.setTranscriptMode(AbsListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         listy.setAdapter(chatArrayAdapter);
 
-        myRef.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+        if (chatArrayAdapter.chatMessageList.isEmpty()){
+            valueEventListener = new com.google.firebase.database.ValueEventListener() {
 
                 @Override
                 public void onDataChange(@androidx.annotation.NonNull com.google.firebase.database.DataSnapshot snapshot) {
                     chatArrayAdapter.clear();
-                    if(com.home.test.ui.MainActivity.designer.email != null){
+                    if (com.home.test.ui.MainActivity.designer.email != null) {
                         Iterable<com.google.firebase.database.DataSnapshot> messages = snapshot.getChildren();
                         for (com.google.firebase.database.DataSnapshot child : messages) {
-                            if(child.getKey().equals(userName + userName2)){
+                            if (child.getKey().equals(userName + userName2)) {
                                 Iterable<com.google.firebase.database.DataSnapshot> message = snapshot.child(child.getKey()).getChildren();
                                 for (com.google.firebase.database.DataSnapshot childd : message) {
-                                    if(childd.child("name").getValue().toString().equals(com.home.test.ui.MainActivity.designer.email)){
+                                    if (childd.child("name").getValue().toString().equals(com.home.test.ui.MainActivity.designer.email)) {
                                         ChatMessage m = new ChatMessage(true, childd.child("message").getValue().toString());
                                         sendChatMessage2(m);
-                                    } if(childd.child("name").getValue().toString().equals(ee2)){
+                                    }
+                                    if (childd.child("name").getValue().toString().equals(ee2)) {
                                         ChatMessage m = new ChatMessage(false, childd.child("message").getValue().toString());
                                         sendChatMessage2(m);
                                     }
@@ -131,16 +143,17 @@ public class chatroom extends AppCompatActivity {
                         }
                     }
 
-                    if(com.home.test.ui.MainActivity.user.email != null){
+                    if (com.home.test.ui.MainActivity.user.email != null) {
                         Iterable<com.google.firebase.database.DataSnapshot> messages = snapshot.getChildren();
                         for (com.google.firebase.database.DataSnapshot child : messages) {
-                            if(child.getKey().contains(userName2)){
+                            if (child.getKey().contains(userName2)) {
                                 Iterable<com.google.firebase.database.DataSnapshot> message = snapshot.child(child.getKey()).getChildren();
                                 for (com.google.firebase.database.DataSnapshot childd : message) {
-                                    if(childd.child("name").getValue().toString().equals(com.home.test.ui.MainActivity.user.email)){
+                                    if (childd.child("name").getValue().toString().equals(com.home.test.ui.MainActivity.user.email)) {
                                         ChatMessage m = new ChatMessage(true, childd.child("message").getValue().toString());
                                         sendChatMessage2(m);
-                                    } if(childd.child("name").getValue().toString().equals(ee)){
+                                    }
+                                    if (childd.child("name").getValue().toString().equals(ee)) {
                                         ChatMessage m = new ChatMessage(false, childd.child("message").getValue().toString());
                                         sendChatMessage2(m);
                                     }
@@ -156,7 +169,10 @@ public class chatroom extends AppCompatActivity {
                 public void onCancelled(@androidx.annotation.NonNull com.google.firebase.database.DatabaseError error) {
 
                 }
-            });
+            };
+            myRef.addListenerForSingleValueEvent(valueEventListener);
+
+    }
 
         //to scroll the list view to bottom on data change
         chatArrayAdapter.registerDataSetObserver(new DataSetObserver() {
@@ -166,26 +182,31 @@ public class chatroom extends AppCompatActivity {
                 listy.setSelection(chatArrayAdapter.getCount() - 1);
             }
         });
+
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 if(com.home.test.ui.MainActivity.designer.email != null){
+                    sendChatMessage(true);
                     Message m = new Message();
                     m.setDateTime( java.util.Calendar.getInstance().getTime());
                     m.setMessage(chatText.getText().toString());
                     m.setName(com.home.test.ui.MainActivity.designer.email);
                     m.setTo(ee2);
-                    myRef.child(userName +userName2).push().setValue(m);
+                    MessageList.add(m);
                     chatText.setText("");
                 }
                 if(com.home.test.ui.MainActivity.user.email != null){
+                    sendChatMessage(true);
                     Message m = new Message();
                     m.setDateTime( java.util.Calendar.getInstance().getTime());
                     m.setMessage(chatText.getText().toString());
                     m.setName(com.home.test.ui.MainActivity.user.email);
                     m.setTo(ee);
-                    myRef.child(userName +userName2).push().setValue(m);
+                    MessageList.add(m);
                     chatText.setText("");
+
                 }
 
             }
@@ -194,6 +215,15 @@ public class chatroom extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onStop() {
+
+        for (Message m : MessageList) {
+            myRef.child(userName +userName2).push().setValue(m);
+        }
+
+        super.onStop();
+    }
 
 
 
